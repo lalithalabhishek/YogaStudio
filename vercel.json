@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/prakash_yoga_feedback_form.html" }
+  ]
+}
