@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback – Prakash Yoga Studio</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem 0;
+      color: #1a1a1a;
+    }
+
+    .form-wrap {
+      width: 100%;
+      max-width: 540px;
+      flex: 1;
+    }
+
+    .studio-header {
+      background: #FF9933;
+      border-radius: 14px;
+      padding: 2rem 1.5rem 1.75rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .lotus {
+      font-size: 34px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .studio-header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.01em;
+      margin-bottom: 4px;
+    }
+
+    .studio-header p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .form-card {
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 14px;
+      padding: 1.75rem 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+    }
+
+    .field {
+      margin-bottom: 1.1rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .field input[type="text"],
+    .field input[type="email"],
+    .field input[type="tel"],
+    .field textarea {
+      width: 100%;
+      padding: 10px 13px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1a1a1a;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #FF9933;
+      box-shadow: 0 0 0 3px rgba(255,153,51,0.12);
+    }
+
+    .field input.input-error {
+      border-color: #e53e3e;
+      box-shadow: 0 0 0 3px rgba(229,62,62,0.1);
+    }
+
+    .error-msg {
+      display: none;
+      font-size: 13px;
+      color: #e53e3e;
+      margin-top: 5px;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    .field textarea {
+      height: 110px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #f0f0f0;
+      margin: 1.4rem 0;
+    }
+
+    .star-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 6px 0;
+    }
+
+    .star-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .star-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .star-icon {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.12s, transform 0.1s;
+      display: block;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .star-icon.lit {
+      color: #FF9933;
+    }
+
+    .star-icon:hover {
+      transform: scale(1.15);
+    }
+
+    .star-num {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #FF9933;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      letter-spacing: 0.01em;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .submit-btn:hover { background: #e8881e; }
+    .submit-btn:active { background: #cc7710; transform: scale(0.99); }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 1rem;
+    }
+
+    .success-icon {
+      font-size: 48px;
+      color: #FF9933;
+      margin-bottom: 1rem;
+    }
+
+    .success-msg h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+
+    .success-msg p {
+      font-size: 14px;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .site-footer {
+      width: 100%;
+      background: #FF9933;
+      text-align: center;
+      padding: 14px 1rem;
+      font-size: 13px;
+      color: #fff;
+      margin-top: auto;
+    }
+
+    @media (max-width: 480px) {
+      .form-card { padding: 1.25rem; }
+      .studio-header { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-wrap">
+    <div class="studio-header">
+      <div class="lotus">🪷</div>
+      <h1>Prakash Yoga Studio</h1>
+      <p>Chennai &nbsp;·&nbsp; We value your feedback</p>
+    </div>
+
+    <div class="form-card">
+      <div id="form-body">
+        <p class="section-title">Your details</p>
+
+        <div class="field">
+          <label for="full-name">Full name</label>
+          <input type="text" id="full-name" placeholder="Enter your full name" />
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" placeholder="e.g. 98765 43210 or 044-12345678"
+            oninput="clearPhoneError()" />
+          <span class="error-msg" id="phone-error">
+            Please enter a valid Indian mobile number (10 digits) or landline (area code + 8 digits), e.g. 9876543210 or 04412345678.
+          </span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="you@example.com" />
+        </div>
+
+        <hr class="divider" />
+        <p class="section-title">Your experience</p>
+
+        <div class="field">
+          <label>Overall rating</label>
+          <div class="star-row" id="star-row">
+            <div class="star-option" onclick="selectRating(1)">
+              <input type="radio" name="rating" value="1" id="r1" />
+              <span class="star-icon" id="s1">★</span>
+              <span class="star-num">1</span>
+            </div>
+            <div class="star-option" onclick="selectRating(2)">
+              <input type="radio" name="rating" value="2" id="r2" />
+              <span class="star-icon" id="s2">★</span>
+              <span class="star-num">2</span>
+            </div>
+            <div class="star-option" onclick="selectRating(3)">
+              <input type="radio" name="rating" value="3" id="r3" />
+              <span class="star-icon" id="s3">★</span>
+              <span class="star-num">3</span>
+            </div>
+            <div class="star-option" onclick="selectRating(4)">
+              <input type="radio" name="rating" value="4" id="r4" />
+              <span class="star-icon" id="s4">★</span>
+              <span class="star-num">4</span>
+            </div>
+            <div class="star-option" onclick="selectRating(5)">
+              <input type="radio" name="rating" value="5" id="r5" />
+              <span class="star-icon" id="s5">★</span>
+              <span class="star-num">5</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="comments">Comments</label>
+          <textarea id="comments" placeholder="Share your experience with us..."></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="handleSubmit()">Submit feedback</button>
+      </div>
+
+      <div class="success-msg" id="success-msg">
+        <div class="success-icon">✓</div>
+        <h2>Thank you for your feedback!</h2>
+        <p>We appreciate you taking the time to share your experience at Prakash Yoga Studio.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Prakash Yoga Studio, Chennai &nbsp;|&nbsp; Call us: 044-12345678
+  </footer>
+
+  <script>
+    var selectedRating = 0;
+
+    function selectRating(n) {
+      selectedRating = n;
+      document.getElementById('r' + n).checked = true;
+      for (var i = 1; i <= 5; i++) {
+        var s = document.getElementById('s' + i);
+        if (i <= n) { s.classList.add('lit'); }
+        else { s.classList.remove('lit'); }
+      }
+    }
+
+    var starOptions = document.querySelectorAll('.star-option');
+    starOptions.forEach(function(opt, idx) {
+      opt.addEventListener('mouseenter', function() {
+        for (var i = 1; i <= 5; i++) {
+          var s = document.getElementById('s' + i);
+          if (i <= idx + 1) { s.style.color = '#FF9933'; }
+          else { s.style.color = ''; }
+        }
+      });
+      opt.addEventListener('mouseleave', function() {
+        for (var i = 1; i <= 5; i++) {
+          var s = document.getElementById('s' + i);
+          s.style.color = '';
+        }
+      });
+    });
+
+    function clearPhoneError() {
+      var phoneInput = document.getElementById('phone');
+      var phoneError = document.getElementById('phone-error');
+      phoneInput.classList.remove('input-error');
+      phoneError.classList.remove('visible');
+    }
+
+    function validatePhone(phone) {
+      // Remove spaces and hyphens for validation
+      var cleaned = phone.replace(/[\s\-]/g, '');
+
+      // Remove country code prefix if present (+91 or 091 or 91 at start for 12-digit numbers)
+      if (/^\+91/.test(cleaned)) { cleaned = cleaned.slice(3); }
+      else if (/^091/.test(cleaned)) { cleaned = cleaned.slice(3); }
+      else if (/^91/.test(cleaned) && cleaned.length === 12) { cleaned = cleaned.slice(2); }
+
+      // Remove leading 0 (common for landlines: 044...)
+      // Mobile: exactly 10 digits, starting with 6-9
+      var mobilePattern = /^[6-9]\d{9}$/;
+
+      // Landline: leading 0 + area code (2-4 digits) + 8-digit number = 11-12 digits total with leading 0
+      // e.g. 04412345678 (11 digits with 0), 044-12345678
+      // Area codes: 2-digit STD (like 044 for Chennai = 0 + 2 digits), 3-digit STD, 4-digit STD
+      // Total with leading 0: 0 + 2-4 digit area code + 8 digits = 11 to 13 chars
+      // But most common: 044 (3 chars with 0) + 8 = 11 digits
+      var landlinePattern = /^0\d{2,4}\d{8}$/;
+
+      if (mobilePattern.test(cleaned)) return true;
+      if (landlinePattern.test(cleaned)) return true;
+      return false;
+    }
+
+    function handleSubmit() {
+      var name = document.getElementById('full-name').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var phoneInput = document.getElementById('phone');
+      var phoneError = document.getElementById('phone-error');
+
+      var valid = true;
+
+      if (!name || !email || !selectedRating) {
+        alert('Please fill in all fields and select a star rating before submitting.');
+        return;
+      }
+
+      if (!phone) {
+        phoneInput.classList.add('input-error');
+        phoneError.classList.add('visible');
+        valid = false;
+      } else if (!validatePhone(phone)) {
+        phoneInput.classList.add('input-error');
+        phoneError.classList.add('visible');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      document.getElementById('form-body').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
